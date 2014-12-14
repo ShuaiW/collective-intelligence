@@ -193,3 +193,37 @@ def transform_prefs(prefs):
 
 
 movies = transform_prefs(critics)
+
+
+
+### Item-based filtering: comparisons between items will not change as often
+### as comparison between users. This means it can be done at low-traffic 
+### times or on a computer separate from the main application
+
+def sim_items(prefs, n=10):
+    """
+    Creates a dictionary of items showing which other items 
+    they are most similar to.
+
+    Note: This function needs to be run more often early on when the user base
+    and number of rating is small. As the user base grows, the scores will 
+    become more stable.
+
+    :param: prefs: a user-centric dictionary {user: {item: rating, item: ...}}
+    :param: n: optional, the number of most similar items (default=10)
+    :return: a dictionary of items and their most similar items
+    """
+    result = {}   
+    # Invert the preference matrix to be item-centric
+    item_prefs = transform_prefs(prefs)
+    c = 0
+    for item in item_prefs:
+        # Status update for large datasets
+        c += 1
+        if c % 100 == 0:
+            print "{0} / {1}".format(c, len(item_prefs))
+        # Find the n most similar items to this one
+        scores = top_matches(item_prefs, item, n=n, similarity=sim_distance)
+        result[item] = scores
+
+    return result
