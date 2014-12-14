@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Dec 12 19:35:30 2014
-
-@author: shuaiwang
+A program that calcuates similarity scores, 
+finds top matches and makes recommendations.
 """
 
 from math import sqrt
-
 
 # A dictionary of movie critics and their ratings of a small set of movies
 critics = {
